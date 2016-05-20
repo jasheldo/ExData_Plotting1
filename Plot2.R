@@ -1,28 +1,9 @@
-<<<<<<< HEAD
-library(lubridate)
-#Read in the full text file.
-power <- read.table("./household_power_consumption.txt", header = TRUE, sep = ";")
-
-#Subset the file to include only the dates 2/1/2007 and 2/2/2007
-power <- subset(power, power$Date == "1/2/2007" | power$Date == "2/2/2007")
-
-#Change the class of Date from "factor" to "Date" using Lubridate
-#x <- dmy(power$Date)
-#power$Date <- x
-#as.Date(power$Date)
-
-#Change Time from numeric to time
-#strptime(power$Time, format = "%H:%M:%S")
-power$Global_active_power <- as.numeric(power$Global_active_power)
-
-hist(power$Global_active_power, xlab = "Global Active Power (kilowatts)", col = "red", main = "Global Active Power")
-=======
 #Exploratory Data Analysis
 #Week 1 Course Project 1
 # by James Sheldon
 #12/May/2016
 
-#Plot 1
+#Plot 2
 
 #This file takes the already available data file in the working directory and produces the required histogram
 #In this implementation we use the dplyr and lubridate functions to make data manipulation easier.
@@ -57,17 +38,15 @@ power <- read.table("./household_power_consumption.txt", sep = ";", header = TRU
 #Subset the file to include only the dates 2/1/2007 and 2/2/2007
 power <- filter(power, Date %in% c("1/2/2007", "2/2/2007"))
 
-#Create the global active power vector.
+#Create the timestamp and make sure each Sub_metering_* is numeric. Store each in their own vector.
+timestamp <- strptime(paste(power$Date, power$Time, sep = " "), format = "%d/%m/%Y %H:%M:%S")
 gap <- as.numeric(power$Global_active_power)
 
-
 #Open the PNG graphics device
-png(filename = "./plot1.png", width = 480, height = 480)
+png(filename = "./plot2.png", width = 480, height = 480)
 
-
-#Produce the first graphic (same as plot2)
-hist(gap, xlab = "Global Active Power (kilowatts)", col = "red", main = "Global Active Power")
+#Produce the graphic
+plot(timestamp, gap, type = "l", xlab = "", ylab = "Global Active Power (kilowatts)")
 
 #Close the connection to the PNG Device to write the file to disk
 dev.off()
->>>>>>> origin/master
